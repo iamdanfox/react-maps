@@ -33,25 +33,21 @@ var Map = React.createClass({
   },
 
   // `lines` :: lineName -> {points,strokeColor, strokeWeight ...}
-  updatePolyLine : function(lines) {
-    var keys = Object.keys(lines)
-    for (var i=0;i<keys.length;i++){
-      var lineName = keys[i]
-      var lineData = lines[lineName]
-
-      // add `path` field to lineData
-      var path = [];
-      lineData.points.forEach( function(p){
-        path.push(new google.maps.LatLng(p.latitude, p.longitude));
-      });
+  updatePolylines : function(newLines) {
+    for (var name in newLines){ // iterate through keys
 
       // update existing, or add new
-      if (! this.state.lines[lineName] ) {
-        this.state.lines[lineName] = new google.maps.Polyline(lineData)
+      if (! this.state.lines[name] ) {
+        this.state.lines[name] = new google.maps.Polyline(newLines[name])
       }
-      this.state.lines[lineName].setMap(this.state.map)
-      this.state.lines[lineName].setOptions(lineData)
-      this.state.lines[lineName].setPath(path)
+      this.state.lines[name].setMap(this.state.map)
+      this.state.lines[name].setOptions(newLines[name])
+
+      // compute `path` field
+      var path = newLines[name].points.map(function(p){
+        return new google.maps.LatLng(p.latitude, p.longitude);
+      })
+      this.state.lines[name].setPath(path)
     }
     // TODO: can this remove paths??
   },
@@ -122,7 +118,7 @@ var Map = React.createClass({
 
       this.setState( { map : map } );
       if( this.props.points ) this.updateMarkers(this.props.points);
-      if( this.props.lines ) this.updatePolyLine(this.props.lines);
+      if( this.props.lines ) this.updatePolylines(this.props.lines);
 
     }).bind(this);
 
@@ -136,7 +132,7 @@ var Map = React.createClass({
   componentWillReceiveProps : function(props) {
     if( props.zoom ) this.updateZoom(props.zoom)
     if( props.points ) this.updateMarkers(props.points);
-    if( props.lines ) this.updatePolyLine(props.lines);
+    if( props.lines ) this.updatePolylines(props.lines);
     if( props.latitude || props.longitude) this.updateCenter(props.latitude, props.longitude)
   }
 
