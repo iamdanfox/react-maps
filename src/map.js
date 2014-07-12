@@ -1,6 +1,3 @@
-/**
- * @jsx React.DOM
- */
 "use strict";
 
 var __in_node = (typeof exports !== 'undefined' && this.exports !== exports);
@@ -15,6 +12,7 @@ var Map = React.createClass({
   getInitialState: function() {
     return {
       map : null,
+      lines: {},
       markers : []
     };
   },
@@ -28,8 +26,30 @@ var Map = React.createClass({
       width: 500,
       height: 500,
       points: [],
+      lines:{},
       gmaps_api_key: '',
       gmaps_sensor: false
+    }
+  },
+
+  // `lines` :: lineName -> {points,strokeColor, strokeWeight ...}
+  updatePolylines : function(newLines) {
+    // delete all old lines
+    for (var name in this.state.lines)
+      this.state.lines[name].setMap(null)
+
+    for (var name in newLines){ // iterate through keys
+      // update existing, or add new
+      if (! this.state.lines[name] )
+        this.state.lines[name] = new google.maps.Polyline(newLines[name])
+      this.state.lines[name].setMap(this.state.map)
+      this.state.lines[name].setOptions(newLines[name])
+
+      // compute `path` field
+      var path = newLines[name].points.map(function(p){
+        return new google.maps.LatLng(p.latitude, p.longitude);
+      })
+      this.state.lines[name].setPath(path)
     }
   },
 
@@ -96,7 +116,9 @@ var Map = React.createClass({
       var map = new google.maps.Map( this.getDOMNode(), mapOptions);
 
       this.setState( { map : map } );
-      this.updateMarkers(this.props.points);
+      
+      if( this.props.points ) this.updateMarkers(this.props.points);
+      if( this.props.lines ) this.updatePolylines(this.props.lines);
     }).bind(this);
 
     if (typeof google !== 'undefined') {
@@ -126,6 +148,7 @@ var Map = React.createClass({
   componentWillReceiveProps : function(props) {
     if( props.zoom ) this.updateZoom(props.zoom)
     if( props.points ) this.updateMarkers(props.points);
+    if( props.lines ) this.updatePolylines(props.lines);
     if( props.latitude || props.longitude) this.updateCenter(props.latitude, props.longitude)
   }
 
