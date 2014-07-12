@@ -27,11 +27,11 @@ pre.hljs {width:60%;display:inline-block;text-align:left;}
 <script type="text/jsx" class="demo">
   /** @jsx React.DOM */
   React.renderComponent(
-    <Map latitude={60.1876172} longitude={24.815366} zoom={9} width='100%' height={250} />,
+    <Map initLat={60.1876172} initLon={24.815366} initZoom={9} width='100%' height={250} />,
     document.querySelector('#mapdemo1')
   )
   React.renderComponent(
-    <Map latitude={58.1876172} longitude={22.815366} zoom={8} width='100%' height={250} />,
+    <Map initLat={58.1876172} initLon={22.815366} initZoom={8} width='100%' height={250} />,
     document.querySelector('#mapdemo2')
   )
 

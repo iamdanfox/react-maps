@@ -30,7 +30,7 @@ pre.hljs, #mapdemo {width:60%;display:inline-block;text-align:left;}
     {latitude:60.2049747,longitude:24.9634712,title:"HIIT Kumpula"}
   ]
 
-  map = <Map latitude={60.170833} longitude={24.9375} zoom={9} width={500} height={250} points={points} />
+  map = <Map initLat={60.170833} initLon={24.9375} initZoom={9} width={500} height={250} points={points} />
 
   React.renderComponent(map, document.querySelector('#mapdemo'))
 

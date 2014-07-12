@@ -50,7 +50,7 @@ pre.hljs, #mapdemo {width:60%;display:inline-block;text-align:left;}
     render: function(){
       return (
       <div>
-        <Map ref='myMap' latitude={this.state.center.latitude} longitude={this.state.center.longitude} zoom={this.state.zoom} width='100%' height={250} points={this.state.points} />
+        <Map ref='myMap' initLat={this.state.center.latitude} initLon={this.state.center.longitude} initZoom={this.state.zoom} width='100%' height={250} points={this.state.points} />
         <button onClick={this.randomize}>Randomize Points</button>
         <button onClick={this.updateZoom}>Update Zoom</button>
         <button onClick={this.updateCenter}>Update Center</button>

@@ -20,9 +20,9 @@ var Map = React.createClass({
   // set some default values
   getDefaultProps: function() {
     return {
-      latitude: 0,
-      longitude: 0,
-      zoom: 4,
+      initLat: 0,
+      initLon: 0,
+      initZoom: 4,
       width: 500,
       height: 500,
       points: [],
@@ -94,22 +94,19 @@ var Map = React.createClass({
   },
 
   render : function() {
-
     var style = {
       width: this.props.width,
       height: this.props.height
     }
 
-    return (
-      React.DOM.div({style:style})
-    );
+    return React.DOM.div({style:style})
   },
 
   componentDidMount : function() {
     var createMap = (function() {
       var mapOptions = {
-        zoom: this.props.zoom,
-        center: new google.maps.LatLng( this.props.latitude , this.props.longitude ),
+        zoom: this.props.initZoom,
+        center: new google.maps.LatLng( this.props.initLat , this.props.initLon ),
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
@@ -144,12 +141,10 @@ var Map = React.createClass({
     }
   },
 
-  // update markers if needed
+  // update props (ignores the initial ones: initLat, initLon, initZoom)
   componentWillReceiveProps : function(props) {
-    // if( props.zoom ) this.updateZoom(props.zoom)
     if( props.points ) this.updateMarkers(props.points);
     if( props.lines ) this.updatePolylines(props.lines);
-    // if( props.latitude || props.longitude) this.updateCenter(props.latitude, props.longitude)
   }
 
 });
