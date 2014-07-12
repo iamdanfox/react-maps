@@ -68,6 +68,11 @@ var Map = React.createClass({
     this.state.map.setZoom(newZoom)
   },
 
+  updateCenter: function(newLat, newLon){
+    var newCenter = new google.maps.LatLng(newLat, newLon)
+    this.state.map.setCenter(newCenter)
+  },
+
   render : function() {
 
     var style = {
@@ -107,6 +112,7 @@ var Map = React.createClass({
   componentWillReceiveProps : function(props) {
     if( props.zoom ) this.updateZoom(props.zoom)
     if( props.points ) this.updateMarkers(props.points);
+    if( props.latitude || props.longitude) this.updateCenter(props.latitude, props.longitude)
   }
 
 });
