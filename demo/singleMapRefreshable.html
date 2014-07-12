@@ -41,20 +41,19 @@ pre.hljs, #mapdemo {width:60%;display:inline-block;text-align:left;}
       ]
       this.setState({points:randomPoints})
     },
-    randomizeZoom: function(){
-      this.setState({zoom:Math.floor(Math.random()*14)})
+    updateZoom: function(){
+      this.refs.myMap.updateZoom( Math.floor(Math.random()*14) )
     },
-    randomizeCenter: function(){
-      newCenter = {latitude:60.1876172+2*Math.random()-1,longitude:24.815366+2*Math.random()-1}
-      this.setState({center:newCenter})
+    updateCenter: function(){
+      this.refs.myMap.updateCenter(60.1876172+2*Math.random()-1, 24.815366+2*Math.random()-1)
     },
     render: function(){
       return (
       <div>
-        <Map latitude={this.state.center.latitude} longitude={this.state.center.longitude} zoom={this.state.zoom} width='100%' height={250} points={this.state.points} />
-        <button onClick={this.randomizeCenter}>Randomize Center</button>
+        <Map ref='myMap' latitude={this.state.center.latitude} longitude={this.state.center.longitude} zoom={this.state.zoom} width='100%' height={250} points={this.state.points} />
         <button onClick={this.randomize}>Randomize Points</button>
-        <button onClick={this.randomizeZoom}>Randomize Zoom</button>
+        <button onClick={this.updateZoom}>Update Zoom</button>
+        <button onClick={this.updateCenter}>Update Center</button>
       </div>
       )
     }

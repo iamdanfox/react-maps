@@ -116,7 +116,7 @@ var Map = React.createClass({
       var map = new google.maps.Map( this.getDOMNode(), mapOptions);
 
       this.setState( { map : map } );
-      
+
       if( this.props.points ) this.updateMarkers(this.props.points);
       if( this.props.lines ) this.updatePolylines(this.props.lines);
     }).bind(this);
@@ -146,10 +146,10 @@ var Map = React.createClass({
 
   // update markers if needed
   componentWillReceiveProps : function(props) {
-    if( props.zoom ) this.updateZoom(props.zoom)
+    // if( props.zoom ) this.updateZoom(props.zoom)
     if( props.points ) this.updateMarkers(props.points);
     if( props.lines ) this.updatePolylines(props.lines);
-    if( props.latitude || props.longitude) this.updateCenter(props.latitude, props.longitude)
+    // if( props.latitude || props.longitude) this.updateCenter(props.latitude, props.longitude)
   }
 
 });
