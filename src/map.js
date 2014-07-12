@@ -64,6 +64,10 @@ var Map = React.createClass({
     this.setState( { markers : markers });
   },
 
+  updateZoom: function (newZoom) {
+    this.state.map.setZoom(newZoom)
+  },
+
   render : function() {
 
     var style = {
@@ -101,6 +105,7 @@ var Map = React.createClass({
 
   // update markers if needed
   componentWillReceiveProps : function(props) {
+    if( props.zoom ) this.updateZoom(props.zoom)
     if( props.points ) this.updateMarkers(props.points);
   }
 
