@@ -8,13 +8,15 @@ html {
   background:#eee;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 90%;
+  color: rgb(51, 51, 51);
 }
 
 body {
   position: relative;
   margin: 5em auto;
   width:700px;
-  padding: 30px 100px;
+  padding: 30px 100px 50px 100px;
+  text-align: center;
 
   background:rgb(247, 247, 247);
   -webkit-box-shadow: 0 0 0.5px 0.5px #ccc;
@@ -22,14 +24,81 @@ body {
 }
 
 h1 {
-  text-align: center;
   font-weight: normal;
+  color: rgb(80,80,80);
 }
 
 #map {
   height:300px;
   width:600px;
   margin: 30px auto;
+}
+
+pre {
+  text-align:left;
+}
+
+hr {
+  margin: 3em auto;
+  width: 60%;
+  border: none;
+  background: #ddd;
+  height:1px;
+}
+
+ul {
+  padding:0;
+  margin:30px 0;
+}
+
+li {
+  display:inline-block;
+  margin:0;
+  padding:0;
+}
+
+li a {
+  padding: 9px 13px;
+  text-decoration:none;
+  margin: 0 10px;
+  font-size: 130%;
+  color: white;
+  background: rgb(179,209,255);
+  -webkit-transition: all 200ms;
+  transition: all 300ms;
+  opacity:1;
+}
+
+li a:hover {
+  background: rgb(170,199,242);
+}
+
+li a:active {
+  background: rgb(161,188,229);
+}
+
+pre.install-sh {
+  font-size:150%;
+  text-align: center;
+  margin: 2em 0;
+}
+
+.footer {
+  font-size:21px;
+  opacity:0.2;
+  padding:2em;
+  margin:-3em auto -2em auto;
+  width: 40%;
+  -webkit-transition:300ms all;
+  transition:300ms all;
+}
+
+.footer:hover {
+  opacity: 0.8;
+}
+
+.footer a {
+  color: #0074D9;
 }
 
 </style>
@@ -45,33 +114,44 @@ h1 {
   <div class="container">
     <h1>React Maps</h1>
 
-    <div id="map">
+    <div id="map"></div>
+
+    <!--     <pre class="install-sh">npm install react-maps --save</pre> -->
+    <hr>
+
+    <ul>
+      <li><a href="demo/singleMapRefreshable.html">Refreshable</a></li>
+      <li><a href="demo/multimap.html">Multiple Maps</a></li>
+      <li><a href="demo/polyline.html">Polylines</a></li>
+    </ul>
+
+    <pre class="demo"></pre>
+
+    <hr>
+
+    <div class="footer">
+      <p>made for fun by <a href="http://twitter.com/iamdanfox">iamdanfox</a></p>
+      <iframe src="http://ghbtns.com/github-btn.html?user=iamdanfox&amp;repo=react-maps&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
     </div>
-
-    <p>A map component for React, the declarative UI library. Allow your React sites to use Google Maps easily.</p>
-
-<pre></pre>
   </div>
 
 
-<script type="text/jsx" class="demo">
-  /** @jsx React.DOM */
+<script type="text/jsx" class="demo">  /** @jsx React.DOM */
   points = [
-    {latitude:60.1876172,longitude:24.815366,title:"HIIT Open Innovation House"},
-    {latitude:60.185478,longitude:24.812257,title:"HIIT Otaniemi"},
-    {latitude:60.2049747,longitude:24.9634712,title:"HIIT Kumpula"}
+    {latitude:60.1876172,longitude:24.815366},
+    {latitude:60.2049747,longitude:24.9634712}
   ]
 
-  React.renderComponent(<Map initLat={60.170833} initLon={24.9375} initZoom={9} width={600} height={300} points={points} />,
-    document.querySelector('#map'))
-
-</script>
+  React.renderComponent(
+    <Map points={points} initLat={60.17} initLon={24.94} initZoom={9} width={600} height={300} />,
+    document.querySelector('#map')
+  )</script>
 
 <!-- Copy javascript into <pre> and colour it nicely -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
 <script>
 hljs.configure({languages:['js']})
-var pre = document.querySelector('pre')
+var pre = document.querySelector('pre.demo')
 pre.innerHTML = document.querySelector('script.demo').innerHTML.replace(/>/g,'&gt;').replace(/</g,'&lt;')
 hljs.highlightBlock(pre)
 </script>
