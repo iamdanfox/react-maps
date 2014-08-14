@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<h1>React Maps (Refreshable)</h1>
+<h1><a href="../">React Maps (Refreshable)</a></h1>
 
 <div id="map"></div>
 
@@ -45,6 +45,7 @@ RefreshMap = React.createClass({
       points: [ {latitude:60.1876172,longitude:24.815366}  ]
     }
   },
+
   randomize: function(){
     randomPoints = [
       {latitude:60.1876172+Math.random()-0.5,longitude:24.815366+Math.random()-0.5},
@@ -53,23 +54,24 @@ RefreshMap = React.createClass({
     ]
     this.setState({points:randomPoints})
   },
+
   updateZoom: function(){
     this.refs.myMap.updateZoom( Math.floor(Math.random()*14) )
   },
+
   updateCenter: function(){
     this.refs.myMap.updateCenter(60.1876172+2*Math.random()-1, 24.815366+2*Math.random()-1)
   },
+
   render: function(){
-    return (
-    <div>
+    return (<div>
       <Map ref='myMap' points={this.state.points}
        initLat={this.state.center.latitude} initLon={this.state.center.longitude}
        initZoom={this.state.zoom} width='100%' height={300} />
       <button onClick={this.randomize}>Randomize Points</button>
       <button onClick={this.updateZoom}>Update Zoom</button>
       <button onClick={this.updateCenter}>Update Center</button>
-    </div>
-    )
+    </div>)
   }
 })
 
@@ -78,3 +80,4 @@ React.renderComponent(<RefreshMap />, document.querySelector('#map'))</script>
 <!-- Copy javascript into <pre> and colour it nicely -->
 <script src="highlighter.js"></script>
 </body>
+</html>

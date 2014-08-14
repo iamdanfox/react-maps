@@ -19,7 +19,15 @@ body {
 
 h1 {
   font-weight: normal;
+}
+
+h1 a{
   color: rgb(80,80,80);
+  text-decoration: none;
+}
+
+h1 a:hover{
+  text-decoration: underline;
 }
 
 #map {

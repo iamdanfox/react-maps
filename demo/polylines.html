@@ -1,88 +1,91 @@
-
 <!doctype html>
-<html lang="en">
+<html>
 <head>
+<title>React Maps</title>
 
-<title>Polyline Demo - React-Map</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css">
+<h1><a href="../">React Maps (Polylines)</a></h1>
+
+<div id="map"></div>
+
+<!--     <pre class="install-sh">npm install react-maps --save</pre> -->
+<hr>
+
+<ul>
+  <li><a href="refreshable.html">Refreshable</a></li>
+  <li><a>Multiple Maps</a></li>
+  <li><a href="polylines.html">Polylines</a></li>
+</ul>
+
+<pre class="demo"></pre>
+
+<hr>
+
+<div class="footer">
+  <p>made for fun by <a href="http://twitter.com/iamdanfox">iamdanfox</a></p>
+  <iframe src="http://ghbtns.com/github-btn.html?user=iamdanfox&amp;repo=react-maps&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+</div>
+
+
 
 <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.10.0/react.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.10.0/JSXTransformer.js"></script>
-
 <script src="../src/map.js" type="text/javascript"></script>
-<style>
-body {text-align:center;}
-pre.hljs, #mapdemo {width:60%;display:inline-block;text-align:left;}
-</style>
-</head>
 
-<body>
-
-<div id="mapdemo"></div>
-
-<pre></pre>
-<script type="text/jsx" class="demo">
-  /** @jsx React.DOM */
-  RefreshMap = React.createClass({
-    getInitialState: function(){
-      return {
-        zoom: 6,
-        center:   {latitude:60.1876172,longitude:24.815366},
-        lines: {
-          // each line must have a name - this is used to do updates without flickering
-          "line1":{
-            strokeColor:'#FF4136',
-            points:[{"latitude":60.1876172,"longitude":24.815366},{"latitude":59.773511030284475,"longitude":24.544598761077584},{"latitude":59.289374708469744,"longitude":24.445907385617108},{"latitude":59.36112151997329,"longitude":23.948143606137098},{"latitude":59.22882016030305,"longitude":23.90655271179749},{"latitude":58.757514375300865,"longitude":23.362626991996155},{"latitude":59.03164587848985,"longitude":23.06029473158306},{"latitude":59.13167712189422,"longitude":22.445169170450033},{"latitude":59.57301690433339,"longitude":21.47476270871012},{"latitude":59.97493682200254,"longitude":21.2032800955396},{"latitude":59.892427778841714,"longitude":21.02701989660746}]
-          },
-          "line2":{
-            strokeColor:'#0074D9',
-            points:[{"latitude":60.1876172,"longitude":24.815366},{"latitude":59.830877866169224,"longitude":25.643374299227805},{"latitude":59.46835553766393,"longitude":25.798334737836928},{"latitude":59.46291703897693,"longitude":25.801425674760328},{"latitude":59.42323645953254,"longitude":26.081442840693132},{"latitude":59.748102594205896,"longitude":26.819341870786236},{"latitude":59.8419548839254,"longitude":27.291770887856917},{"latitude":60.17283208928236,"longitude":27.939907128054262},{"latitude":60.226464326998006,"longitude":28.40763901599458},{"latitude":60.668376955242614,"longitude":29.055642582771913},{"latitude":60.243549782588865,"longitude":29.722623749466226}]
-          }
+<script type="text/jsx" class="demo">/** @jsx React.DOM */
+PolylineDemo = React.createClass({
+  getInitialState: function(){
+    return {
+      zoom: 6,
+      center:   {latitude:60.1876172,longitude:24.815366},
+      lines: {
+        // each line must have a name - this is used to do updates without flickering
+        "line1":{
+          strokeColor:'#FF4136',
+          points:[{"latitude":60.1876172,"longitude":24.815366},{"latitude":59.773511030284475,"longitude":24.544598761077584},{"latitude":59.289374708469744,"longitude":24.445907385617108},{"latitude":59.36112151997329,"longitude":23.948143606137098},{"latitude":59.22882016030305,"longitude":23.90655271179749},{"latitude":58.757514375300865,"longitude":23.362626991996155},{"latitude":59.03164587848985,"longitude":23.06029473158306},{"latitude":59.13167712189422,"longitude":22.445169170450033},{"latitude":59.57301690433339,"longitude":21.47476270871012},{"latitude":59.97493682200254,"longitude":21.2032800955396},{"latitude":59.892427778841714,"longitude":21.02701989660746}]
+        },
+        "line2":{
+          strokeColor:'#0074D9',
+          points:[{"latitude":60.1876172,"longitude":24.815366},{"latitude":59.830877866169224,"longitude":25.643374299227805},{"latitude":59.46835553766393,"longitude":25.798334737836928},{"latitude":59.46291703897693,"longitude":25.801425674760328},{"latitude":59.42323645953254,"longitude":26.081442840693132},{"latitude":59.748102594205896,"longitude":26.819341870786236},{"latitude":59.8419548839254,"longitude":27.291770887856917},{"latitude":60.17283208928236,"longitude":27.939907128054262},{"latitude":60.226464326998006,"longitude":28.40763901599458},{"latitude":60.668376955242614,"longitude":29.055642582771913},{"latitude":60.243549782588865,"longitude":29.722623749466226}]
         }
       }
-    },
-    randomizeLines: function () {
-      // generate two new random paths (one left and one right)
-      var ps = [{latitude:60.1876172,longitude:24.815366}]
-      for(var i=0;i<10;i++)  ps.push({ latitude:ps[i].latitude + Math.random()-0.5, longitude:ps[i].longitude + Math.random()-1 })
-      var qs = [{latitude:60.1876172,longitude:24.815366}]
-      for(var i=0;i<10;i++)  qs.push({ latitude:qs[i].latitude + Math.random()-0.5, longitude:qs[i].longitude + Math.random() })
-
-      this.setState({
-        lines: {
-          'line1': { points: ps },
-          'line2': { points: qs },
-        }
-      })
-    },
-    render: function(){
-      return (
-      <div>
-        <Map
-          initLat={this.state.center.latitude} initLon={this.state.center.longitude}
-          initZoom={this.state.zoom}
-          width='100%' height={250}
-          lines={this.state.lines}
-          />
-        <button onClick={this.randomizeLines}>Randomize Lines</button>
-      </div>
-      )
     }
-  })
+  },
 
-  React.renderComponent(<RefreshMap />, document.querySelector('#mapdemo'))
+  randomizeLines: function () {
+    // generate two new random paths (one left and one right)
+    var ps = [{latitude:60.1876172,longitude:24.815366}]
+    for(var i=0;i< 10;i++)  ps.push({ latitude:ps[i].latitude + Math.random()-0.5, longitude:ps[i].longitude + Math.random()-1 })
+    var qs = [{latitude:60.1876172,longitude:24.815366}]
+    for(var i=0;i< 10;i++)  qs.push({ latitude:qs[i].latitude + Math.random()-0.5, longitude:qs[i].longitude + Math.random() })
 
-</script>
+    this.setState({
+      lines: {
+        'line1': { points: ps },
+        'line2': { points: qs },
+      }
+    })
+  },
+
+  render: function(){
+    return (<div>
+      <Map
+        initLat={this.state.center.latitude} initLon={this.state.center.longitude}
+        initZoom={this.state.zoom}
+        width='100%' height={300}
+        lines={this.state.lines}
+        />
+      <button onClick={this.randomizeLines}>Randomize Lines</button>
+    </div>)
+  }
+})
+
+React.renderComponent(<PolylineDemo />, document.querySelector('#map'))</script>
 
 <!-- Copy javascript into <pre> and colour it nicely -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
-<script>
-hljs.configure({languages:['js']})
-var pre = document.querySelector('pre')
-pre.innerHTML = document.querySelector('script.demo').innerHTML.replace(/>/g,'&gt;').replace(/</g,'&lt;')
-hljs.highlightBlock(pre)
-</script>
-
+<script src="highlighter.js"></script>
 </body>
 </html>
