@@ -16,8 +16,8 @@
 
 <ul>
   <li><a href="refreshable.html">Refreshable</a></li>
-  <li><a>Multiple Maps</a></li>
-  <li><a href="polylines.html">Polylines</a></li>
+  <li><a href="multiple.html">Multiple Maps</a></li>
+  <li><a>Polylines</a></li>
 </ul>
 
 <pre class="demo"></pre>
@@ -42,7 +42,7 @@ PolylineDemo = React.createClass({
       zoom: 6,
       center:   {latitude:60.1876172,longitude:24.815366},
       lines: {
-        // each line must have a name - this is used to do updates without flickering
+        // each polyline must have a name - this is used to do updates without flickering
         "line1":{
           strokeColor:'#FF4136',
           points:[{"latitude":60.1876172,"longitude":24.815366},{"latitude":59.773511030284475,"longitude":24.544598761077584},{"latitude":59.289374708469744,"longitude":24.445907385617108},{"latitude":59.36112151997329,"longitude":23.948143606137098},{"latitude":59.22882016030305,"longitude":23.90655271179749},{"latitude":58.757514375300865,"longitude":23.362626991996155},{"latitude":59.03164587848985,"longitude":23.06029473158306},{"latitude":59.13167712189422,"longitude":22.445169170450033},{"latitude":59.57301690433339,"longitude":21.47476270871012},{"latitude":59.97493682200254,"longitude":21.2032800955396},{"latitude":59.892427778841714,"longitude":21.02701989660746}]
@@ -58,9 +58,11 @@ PolylineDemo = React.createClass({
   randomizeLines: function () {
     // generate two new random paths (one left and one right)
     var ps = [{latitude:60.1876172,longitude:24.815366}]
-    for(var i=0;i< 10;i++)  ps.push({ latitude:ps[i].latitude + Math.random()-0.5, longitude:ps[i].longitude + Math.random()-1 })
+    for(var i=0;i< 10;i++)
+      ps.push({ latitude:ps[i].latitude + Math.random()-0.5, longitude:ps[i].longitude + Math.random()-1 })
     var qs = [{latitude:60.1876172,longitude:24.815366}]
-    for(var i=0;i< 10;i++)  qs.push({ latitude:qs[i].latitude + Math.random()-0.5, longitude:qs[i].longitude + Math.random() })
+    for(var i=0;i< 10;i++)
+      qs.push({ latitude:qs[i].latitude + Math.random()-0.5, longitude:qs[i].longitude + Math.random() })
 
     this.setState({
       lines: {

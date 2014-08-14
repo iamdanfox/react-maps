@@ -38,6 +38,8 @@ h1 a:hover{
 
 pre {
   text-align:left;
+  overflow-x:hidden !important;
+  text-overflow:ellipsis;
 }
 
 hr {
